@@ -5,6 +5,9 @@ $(document).ready(function () {
 
 var page = {
 
+  completeCount: 0,
+  todoCount : 0,
+
   url: "http://tiy-fee-rest.herokuapp.com/collections/trossy",
   init: function () {
     page.initStyling();
@@ -13,6 +16,8 @@ var page = {
   initStyling: function () {
 
     page.loadItems();
+    page.getItems();
+
   },
   initEvents: function () {
 
@@ -46,10 +51,11 @@ var page = {
 
   addToDoItem: function (item) {
     page.loadTemplate("item", item, $('.items'));
+    console.log("add to do item: " ,item);
+    page.getItems();
   },
   addAllToDoItems: function (allItems) {
-    console.log(allItems.length);
-    $('.remaining').prepend(allItems.length);
+    // console.log(allItems.length);
     _.each(allItems, page.addToDoItem);
   },
   loadItems: function () {
@@ -58,6 +64,7 @@ var page = {
       url: page.url,
       method: 'GET',
       success: function (data) {
+        // console.log( "here's the date: ", data);
         page.addAllToDoItems(data);
       },
       error: function (err) {
@@ -65,6 +72,32 @@ var page = {
       }
     });
   },
+  getItems: function () {
+
+    $.ajax({
+      url: page.url,
+      method: 'GET',
+      success: function (data) {
+        page.getItemRemaining(data);
+      },
+      error: function (err) {
+
+      }
+    });
+  },
+
+    getItemRemaining: function (data) {
+      // console.log("now we r passing: ", data);
+      var count= 0;
+      _.each(data, function(e){
+       if(e.disable === 'false'){
+         count += 1;
+       }
+      })
+      console.log(count);
+      $('.remaining').text(count + " Items Remaining");
+    },
+
   createPost: function (newPost) {
 
     $.ajax({
@@ -75,6 +108,7 @@ var page = {
         console.log(newPost);
         page.addToDoItem(data);
         console.log("success!!: ", data);
+        // page.loadItems(); adds extras to the page when you do this.
       },
       error: function (err) {
         console.log("error ", err);
@@ -89,19 +123,19 @@ var page = {
     method: 'PUT',
     data: editedData,
     success: function (data) {
-      // $('.content').html('');
-      // page.loadItems();
-      console.log("successfully added ", editedData)
+      // console.log("successfully added ", editedData)
+      page.getItems();
 
     },
     error: function (err) {}
   });
 
 
+
 },
 
   loadTemplate: function (tmplName, data, $target) {
-    console.log(data);
+    // console.log(data);
     var compiledTmpl = _.template(page.getTemplate(tmplName));
     $target.append(compiledTmpl(data));
   },
@@ -110,3 +144,22 @@ var page = {
 
   }
 };
+
+
+
+
+// delete manually
+// $.ajax({
+//     url: 'http://tiy-fee-rest.herokuapp.com/collections/trossy/5578b4e53efe8603000001a9',
+//     method: 'DELETE',
+//     success: function (data) {
+//       console.log("deleted");
+//
+//     }
+// })
+
+  // loadItems: function () {
+  //   page.getItems();
+  //   page.addAllToDoItems( );
+  // },
+//
