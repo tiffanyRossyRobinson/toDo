@@ -1,0 +1,60 @@
+h1{
+  width: 60%;
+  margin:auto;
+  margin-top: 5%;
+  text-align:center;
+  font-size: 4em;
+  font-family: fantasy;
+  color: #3d1255;
+  font-weight:bolder;
+}
+
+.toDoList{
+  width: 40%;
+  margin: auto;
+/*   border: 1px solid black; */
+  background-color: #764B8E;
+  margin-top: 5%;
+}
+
+.addItem{
+  width: 100%;
+  background-color:  #764B8E;
+  text-align:center;
+  font-size: 1.5em;
+}
+
+.footOfList{
+  padding-top: 5%;
+  border: 1px solid grey;
+  box-shadow: 2px 2px 1px grey;
+}
+.remaining,
+.filter,
+.clear{
+  display:inline-block;
+  color:#9775aa;
+}
+
+.filter a:link{
+  color:#9775aa;
+}
+.remaining{
+  width: 25%;
+}
+.clear{
+  width:30%;
+}
+
+.filter{
+  width: 40%;
+  padding-left:0;
+}
+.styleItem{
+  border: 1px solid grey;
+  box-shadow: 2px 2px 1px grey;
+}
+
+h4{
+  display:inline-block;
+}
